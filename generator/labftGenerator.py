@@ -65,11 +65,12 @@ def generate_LABFT():
 	file.write(");\n")
 	##### DOT
 	file.write("\t//dot\n")
-	file.write("\tlogic [2*(inputBits+arraySize)+arraySize-1:0] ae_dot;\n")
-	file.write("\tlogic [2*(inputBits+arraySize)+arraySize-1:0] be_dot;\n")
-	file.write("\tlogic [2*(inputBits+arraySize)+arraySize-1:0] ce_dot;\n")
-	file.write("\tlogic [2*(inputBits+arraySize)+arraySize-1:0] de_dot;\n")
-	file.write("\tabcde_dot_nxn abcde_dot_nxn(clk, rst, dot_nxn_selector, dot_nxn_clear,\n")
+	file.write("\tlogic [2*inputBits+3*arraySize-1:0] ae_dot;\n")
+	file.write("\tlogic [2*inputBits+3*arraySize-1:0] be_dot;\n")
+	file.write("\tlogic [2*inputBits+3*arraySize-1:0] ce_dot;\n")
+	file.write("\tlogic [2*inputBits+3*arraySize-1:0] de_dot;\n")
+	file.write("\tlogic valid_dot;\n")
+	file.write("\tabcde_dot_nxn abcde_dot_nxn(clk, rst, dot_nxn_selector, dot_nxn_clear, valid_dot,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\t\t\ta_" + str(i) + "_acc, b_" + str(i) + "_acc, c_" + str(i) + "_acc, d_" + str(i) + "_acc, e_" + str(i) + "_acc,\n")
 	file.write("\t\t\t\t\t\t\t\t\tae_dot, be_dot, ce_dot, de_dot);\n")
@@ -79,10 +80,18 @@ def generate_LABFT():
 	file.write("\tlogic [2*inputBits+3*arraySize-1:0] x_acc;\n")
 	file.write("\tlogic [2*inputBits+3*arraySize-1:0] y_acc;\n")
 	file.write("\tlogic [2*inputBits+3*arraySize-1:0] z_acc;\n")
-	file.write("\twxyz_acc_nxn wxyz_acc_nxn(clk, rst, validOutputs,\n")
+	file.write("\tlogic valid_acc;\n")
+	file.write("\twxyz_acc_nxn wxyz_acc_nxn(clk, rst, validOutputs, valid_acc,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\t\tw_" + str(i) + ", x_" + str(i) + ", y_" + str(i) + ", z_" + str(i) + ",\n")
 	file.write("\t\t\t\t\t\t\t\tw_acc, x_acc, y_acc, z_acc);\n")
+	file.write("\n")
+	##### DETECTOR
+	file.write("\t//detector\n")
+	file.write("\tdetector #(arraySize) detector(clk, rst, valid_dot, valid_acc,\n")
+	file.write("\t\t\t\t\t\t\t\t\tae_dot, be_dot, ce_dot, de_dot,\n")
+	file.write("\t\t\t\t\t\t\t\t\tw_acc, x_acc, y_acc, z_acc,\n")
+	file.write("\t\t\t\t\t\t\t\t\terror);\n")
 	file.write("\n")
 
 	file.write("endmodule")
@@ -280,6 +289,7 @@ def generate_ABCDE_Dot_NxN():
 	file.write("\tinput logic rst,\n")
 	file.write("\tinput logic [addressWidth-1:0] selector,\n")
 	file.write("\tinput logic clear,\n")
+	file.write("\toutput logic valid_out,\n")
 	for i in range(0, arraySize):
 		file.write("\tinput logic [aBits-1:0] a_" + str(i) + ",\n")
 		file.write("\tinput logic [aBits-1:0] b_" + str(i) + ",\n")
@@ -315,6 +325,11 @@ def generate_ABCDE_Dot_NxN():
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\td_" + str(i) + ", e_" + str(i) + ",\n")
 	file.write("\t\t\t\t\t\t\tde_dot);\n")
+	file.write("\n")
+
+	file.write("\tlogic valid_out_0;\n")
+	file.write("\tdff #(1) dff_valid_out_0(clk, rst, (selector == arraySize-1), valid_out_0);\n")
+	file.write("\tdff #(1) dff_valid_out(clk, rst, valid_out_0, valid_out);\n")
 	file.write("\n")
 
 	file.write("endmodule")
@@ -387,6 +402,7 @@ def generate_WXYZ_Acc_NxN():
 	file.write("\tinput logic clk,\n")
 	file.write("\tinput logic rst,\n")
 	file.write("\tinput logic valid,\n")
+	file.write("\toutput logic valid_out,\n")
 	for i in range(0, arraySize):
 		file.write("\tinput logic [aBits-1:0] w_" + str(i) + ",\n")
 		file.write("\tinput logic [aBits-1:0] x_" + str(i) + ",\n")
@@ -440,6 +456,9 @@ def generate_WXYZ_Acc_NxN():
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\t\tclear_0_" + str(i) + ", z_" + str(i) + ",\n")
 	file.write("\t\t\t\t\t\t\t\tselector, clear_1, z_acc);\n")
+	file.write("\n")
+
+	file.write("\tdff #(1) dff_valid_out(clk, rst, (selector == arraySize-1), valid_out);\n")
 	file.write("\n")
 
 	file.write("endmodule")

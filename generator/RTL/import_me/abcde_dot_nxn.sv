@@ -11,6 +11,7 @@ module abcde_dot_nxn //4x4
 	input logic rst,
 	input logic [addressWidth-1:0] selector,
 	input logic clear,
+	output logic valid_out,
 	input logic [aBits-1:0] a_0,
 	input logic [aBits-1:0] b_0,
 	input logic [aBits-1:0] c_0,
@@ -66,5 +67,9 @@ module abcde_dot_nxn //4x4
 							d_2, e_2,
 							d_3, e_3,
 							de_dot);
+
+	logic valid_out_0;
+	dff #(1) dff_valid_out_0(clk, rst, (selector == arraySize-1), valid_out_0);
+	dff #(1) dff_valid_out(clk, rst, valid_out_0, valid_out);
 
 endmodule

@@ -10,6 +10,7 @@ module wxyz_acc_nxn //4x4
 	input logic clk,
 	input logic rst,
 	input logic valid,
+	output logic valid_out,
 	input logic [aBits-1:0] w_0,
 	input logic [aBits-1:0] x_0,
 	input logic [aBits-1:0] y_0,
@@ -85,5 +86,7 @@ module wxyz_acc_nxn //4x4
 								clear_0_2, z_2,
 								clear_0_3, z_3,
 								selector, clear_1, z_acc);
+
+	dff #(1) dff_valid_out(clk, rst, (selector == arraySize-1), valid_out);
 
 endmodule
