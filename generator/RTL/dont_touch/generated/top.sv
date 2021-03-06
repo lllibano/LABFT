@@ -28,9 +28,7 @@ module top //4x4
 	output logic [m_axi_tkeep_width-1:0] M_AXIS_TKEEP,
 	output logic M_AXIS_TLAST,
 	output logic M_AXIS_TVALID,
-	input logic M_AXIS_TREADY,
-	//LABFT
-	output logic [3:0] error
+	input logic M_AXIS_TREADY
 );
 
 	//signals
@@ -300,21 +298,5 @@ module top //4x4
 	assign M_AXIS_TDATA[12*outputBits-1:11*outputBits] = mem_y_3_readData;
 	assign M_AXIS_TDATA[16*outputBits-1:15*outputBits] = mem_z_3_readData;
 	assign M_AXIS_TKEEP = {m_axi_tkeep_width{1'b1}};
-
-	//LABFT
-	labft labft(clk, rst, validInputs_0, wxyzWriteEnable_0,
-					array_a_0_input, array_b_0_input, array_c_0_input, array_d_0_input,
-					array_a_1_input, array_b_1_input, array_c_1_input, array_d_1_input,
-					array_a_2_input, array_b_2_input, array_c_2_input, array_d_2_input,
-					array_a_3_input, array_b_3_input, array_c_3_input, array_d_3_input,
-					array_e_0_output,
-					array_e_1_output,
-					array_e_2_output,
-					array_e_3_output,
-					array_w_0_output, array_x_0_output, array_y_0_output, array_z_0_output,
-					array_w_1_output, array_x_1_output, array_y_1_output, array_z_1_output,
-					array_w_2_output, array_x_2_output, array_y_2_output, array_z_2_output,
-					array_w_3_output, array_x_3_output, array_y_3_output, array_z_3_output,
-					error);
 
 endmodule

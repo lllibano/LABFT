@@ -1,4 +1,4 @@
-module detector
+module labft_error_detector
 #(
 	parameter arraySize = 4,
 	parameter inputBits = 8,

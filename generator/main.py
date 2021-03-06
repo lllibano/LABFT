@@ -12,7 +12,8 @@ deleteOldFiles()
 generateArray()
 if(axiWrapper):
 	generateTop()
-generateLABFT()
+if(levelOfHardness > 0):
+	generateLABFT()
 #copy new .sv files to './RTL/import_me'
 copyNewFiles()
 

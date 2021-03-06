@@ -1,5 +1,69 @@
 from settings import *
 
+def generate_DWC_LABFT():
+	print("\t\tGenerating DWC_LABFT...")
+
+	file = open(generatedPath + "dwc_labft.sv", "w")
+
+	#parameters & interface
+	file.write("module dwc_labft //" + str(arraySize) + "x" + str(arraySize) + "\n")
+	file.write("#(\n")
+	file.write("\tparameter arraySize = " + str(arraySize) + ",\n")
+	file.write("\tparameter inputBits = " + str(inputBits) + ",\n")
+	file.write("\tparameter outputBits = " + str(outputBits) + ",\n")
+	file.write("\tparameter addressWidth = " + str(int(m.ceil(m.log2(arraySize)))) + "\n")
+	file.write(")\n")
+	file.write("(\n")
+	file.write("\t//CLK, RST\n")
+	file.write("\tinput logic clk,\n")
+	file.write("\tinput logic rst,\n")
+	file.write("\t//Control\n")
+	file.write("\tinput logic validInputs,\n")
+	file.write("\tinput logic validOutputs,\n")
+	file.write("\t//ABCD\n")
+	for i in range(0, arraySize):
+		file.write("\tinput logic [inputBits-1:0] a_" + str(i) + ",\n")
+		file.write("\tinput logic [inputBits-1:0] b_" + str(i) + ",\n")
+		file.write("\tinput logic [inputBits-1:0] c_" + str(i) + ",\n")
+		file.write("\tinput logic [inputBits-1:0] d_" + str(i) + ",\n")
+	file.write("\t//E\n")
+	for i in range(0, arraySize):
+		file.write("\tinput logic [inputBits-1:0] e_" + str(i) + ",\n")
+	file.write("\t//WXYZ\n")
+	for i in range(0, arraySize):
+		file.write("\tinput logic [outputBits-1:0] w_" + str(i) + ",\n")
+		file.write("\tinput logic [outputBits-1:0] x_" + str(i) + ",\n")
+		file.write("\tinput logic [outputBits-1:0] y_" + str(i) + ",\n")
+		file.write("\tinput logic [outputBits-1:0] z_" + str(i) + ",\n")
+	file.write("\t//Error Detection\n")
+	file.write("\toutput logic [" + str(2*parallelismLevel-1) + ":0] error\n")
+	file.write(");\n")
+	file.write("\n")
+
+	file.write("\t(* dont_touch = \"true\" *) labft labft_0(clk, rst, validInputs, validOutputs,\n")
+	for i in range(0, arraySize):
+		file.write("\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ",\n")
+	for i in range(0, arraySize):
+		file.write("\t\t\t\t\te_" + str(i) + ",\n")
+	for i in range(0, arraySize):
+		file.write("\t\t\t\t\tw_" + str(i) + ", x_" + str(i) + ", y_" + str(i) + ", z_" + str(i) + ",\n")
+	file.write("\t\t\t\t\terror[" + str(parallelismLevel-1) + ":0]);\n")
+	file.write("\n")
+
+	file.write("\t(* dont_touch = \"true\" *) labft labft_1(clk, rst, validInputs, validOutputs,\n")
+	for i in range(0, arraySize):
+		file.write("\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ",\n")
+	for i in range(0, arraySize):
+		file.write("\t\t\t\t\te_" + str(i) + ",\n")
+	for i in range(0, arraySize):
+		file.write("\t\t\t\t\tw_" + str(i) + ", x_" + str(i) + ", y_" + str(i) + ", z_" + str(i) + ",\n")
+	file.write("\t\t\t\t\terror[" + str(2*parallelismLevel-1) + ":" + str(parallelismLevel) + "]);\n")
+	file.write("\n")
+
+	file.write("endmodule")
+
+	file.close()
+
 def generate_LABFT():
 	print("\t\tGenerating LABFT...")
 
@@ -87,8 +151,8 @@ def generate_LABFT():
 	file.write("\t\t\t\t\t\t\t\tw_acc, x_acc, y_acc, z_acc);\n")
 	file.write("\n")
 	##### DETECTOR
-	file.write("\t//detector\n")
-	file.write("\tdetector #(arraySize) detector(clk, rst, valid_dot, valid_acc,\n")
+	file.write("\t//labft_error_detector\n")
+	file.write("\tlabft_error_detector #(arraySize) labft_error_detector(clk, rst, valid_dot, valid_acc,\n")
 	file.write("\t\t\t\t\t\t\t\t\tae_dot, be_dot, ce_dot, de_dot,\n")
 	file.write("\t\t\t\t\t\t\t\t\tw_acc, x_acc, y_acc, z_acc,\n")
 	file.write("\t\t\t\t\t\t\t\t\terror);\n")
@@ -517,6 +581,8 @@ def generate_Acc_NxN():
 
 def generateLABFT():
 	print("\t### LABFT...")
+	if(levelOfHardness >= 2):
+		generate_DWC_LABFT()
 	generate_LABFT()
 	generate_ABCD_N_Acc_N() #ABCD
 	generate_E_N_Acc_N() #E

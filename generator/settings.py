@@ -15,3 +15,11 @@ outputBits = 32 #(Accumulators)
 arraySize = 4 #(N in NxN)
 is7Series = True #{True = 7 Series (DSP48E1), False = UltraScale (DSP48E2)}
 axiWrapper = True #(AXI Wrapper 'top.sv')
+###LABFT
+labftPath = "./RTL/dont_touch/labft/" #DONT TOUCH
+levelOfHardness = 0
+	#0: Unhardened
+	#1: LABFT
+	#2: DWC LABFT
+	#3: DWC LABFT + DWC Memory
+	#4: DWC LABFT + DWC Memory + TMR Control

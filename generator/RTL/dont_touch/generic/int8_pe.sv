@@ -25,10 +25,7 @@ module int8_pe
     output logic [outputBits-1:0] w,
     output logic [outputBits-1:0] x,
     output logic [outputBits-1:0] y,
-    output logic [outputBits-1:0] z,
-    //LABFT
-    input logic [inputBits-1:0] labft_e,
-    output logic [inputBits-1:0] labft_e_out
+    output logic [outputBits-1:0] z
 );
 
     logic [inputBits-1:0] e_in;
@@ -40,10 +37,5 @@ module int8_pe
     assign e_in = (e_enable) ? e:e_out;
     dff #(inputBits) dff_e(clk, rst, e_in, e_out);
     int8_quad_mac #(inputBits, inputBits, inputBits, inputBits, inputBits, outputBits) int8_quad_mac(clk, rst, clk2x, a_out, b_out, c_out, d_out, e_out, s, t, u, v, w, x, y, z);
-    //LABFT
-    logic [inputBits-1:0] labft_e_in;
-    assign labft_e_in = (e_enable) ? e:labft_e;
-    dff #(inputBits) dff_labft_e(clk, rst, labft_e_in, labft_e_out);
 
 endmodule
-
