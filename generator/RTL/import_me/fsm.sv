@@ -131,7 +131,7 @@ module fsm
             runningState: begin
                 loadingWeights_dff_in = 1'b0;
                 //inputs [mem -> array]
-                validInputs_dff_in = 1'b1;
+                validInputs_dff_in = (interrupt) ? 1'b0:1'b1;
                 abcdReadAddress_dff_in = (abcdReadAddress_dff_out == words-1) ? ({addressWidth{1'b0}}):(abcdReadAddress_dff_out + 1'b1);
                 //outputs [array -> mem]
                 cycleCounter_dff_in = (cycleCounter_dff_out == latency) ? (cycleCounter_dff_out):(cycleCounter_dff_out + 1'b1);              

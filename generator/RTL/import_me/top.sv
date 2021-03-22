@@ -88,22 +88,18 @@ module top //4x4
 	logic [inputBits-1:0] mem_e_0_writeData;
 	logic [inputBits-1:0] mem_e_0_readData;
 	logic [inputBits-1:0] array_e_0_input;
-	logic [inputBits-1:0] array_e_0_output;
 	//column1
 	logic [inputBits-1:0] mem_e_1_writeData;
 	logic [inputBits-1:0] mem_e_1_readData;
 	logic [inputBits-1:0] array_e_1_input;
-	logic [inputBits-1:0] array_e_1_output;
 	//column2
 	logic [inputBits-1:0] mem_e_2_writeData;
 	logic [inputBits-1:0] mem_e_2_readData;
 	logic [inputBits-1:0] array_e_2_input;
-	logic [inputBits-1:0] array_e_2_output;
 	//column3
 	logic [inputBits-1:0] mem_e_3_writeData;
 	logic [inputBits-1:0] mem_e_3_readData;
 	logic [inputBits-1:0] array_e_3_input;
-	logic [inputBits-1:0] array_e_3_output;
 	//wxyz
 	//column0
 	logic [outputBits-1:0] array_w_0_output;
@@ -233,19 +229,15 @@ module top //4x4
 										 array_a_0_input, array_b_0_input, array_c_0_input, array_d_0_input,
 										 array_e_0_input,
 										 array_w_0_output, array_x_0_output, array_y_0_output, array_z_0_output,
-										 array_e_0_output,
 										 array_a_1_input, array_b_1_input, array_c_1_input, array_d_1_input,
 										 array_e_1_input,
 										 array_w_1_output, array_x_1_output, array_y_1_output, array_z_1_output,
-										 array_e_1_output,
 										 array_a_2_input, array_b_2_input, array_c_2_input, array_d_2_input,
 										 array_e_2_input,
 										 array_w_2_output, array_x_2_output, array_y_2_output, array_z_2_output,
-										 array_e_2_output,
 										 array_a_3_input, array_b_3_input, array_c_3_input, array_d_3_input,
 										 array_e_3_input,
-										 array_w_3_output, array_x_3_output, array_y_3_output, array_z_3_output,
-										 array_e_3_output);
+										 array_w_3_output, array_x_3_output, array_y_3_output, array_z_3_output);
 	//mem_wxyz [write by array, read external]
 	//column 0
 	mem #(outputBits, arraySize) mem_w_0(clk, wxyzWriteEnable_0, wxyzWriteAddress_0, array_w_0_output, wxyzReadAddress_0, mem_w_0_readData);

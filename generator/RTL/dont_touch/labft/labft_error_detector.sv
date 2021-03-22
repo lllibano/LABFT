@@ -8,6 +8,7 @@ module labft_error_detector
 (
     input logic clk,
     input logic rst,
+    input logic interrupt,
     input logic valid_dot,
     input logic valid_acc,
     input logic [2*inputBits+3*arraySize-1:0] ae_dot,
@@ -68,11 +69,11 @@ module labft_error_detector
             end
             normalState: begin
                 dff_error_in = error_flags;
-                nextState = (error_flags == 4'b0000) ? normalState:errorState;
+                nextState = (error_flags != 4'b0000) ? ((interrupt) ? idleState:errorState) : ((interrupt) ? idleState:normalState);
             end
             errorState: begin
                 dff_error_in = dff_error_out;
-                nextState = errorState;
+                nextState = (interrupt) ? idleState:errorState;
             end
         endcase
     end

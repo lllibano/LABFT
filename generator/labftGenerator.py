@@ -17,6 +17,7 @@ def generate_DWC_LABFT():
 	file.write("\t//CLK, RST\n")
 	file.write("\tinput logic clk,\n")
 	file.write("\tinput logic rst,\n")
+	file.write("\tinput logic interrupt,\n")
 	file.write("\t//Control\n")
 	file.write("\tinput logic validInputs,\n")
 	file.write("\tinput logic validOutputs,\n")
@@ -40,7 +41,7 @@ def generate_DWC_LABFT():
 	file.write(");\n")
 	file.write("\n")
 
-	file.write("\t(* dont_touch = \"true\" *) labft labft_0(clk, rst, validInputs, validOutputs,\n")
+	file.write("\t(* dont_touch = \"true\" *) labft labft_0(clk, rst, interrupt, validInputs, validOutputs,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ",\n")
 	for i in range(0, arraySize):
@@ -50,7 +51,7 @@ def generate_DWC_LABFT():
 	file.write("\t\t\t\t\terror[" + str(parallelismLevel-1) + ":0]);\n")
 	file.write("\n")
 
-	file.write("\t(* dont_touch = \"true\" *) labft labft_1(clk, rst, validInputs, validOutputs,\n")
+	file.write("\t(* dont_touch = \"true\" *) labft labft_1(clk, rst, interrupt, validInputs, validOutputs,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ",\n")
 	for i in range(0, arraySize):
@@ -81,6 +82,7 @@ def generate_LABFT():
 	file.write("\t//CLK, RST\n")
 	file.write("\tinput logic clk,\n")
 	file.write("\tinput logic rst,\n")
+	file.write("\tinput logic interrupt,\n")
 	file.write("\t//Control\n")
 	file.write("\tinput logic validInputs,\n")
 	file.write("\tinput logic validOutputs,\n")
@@ -113,7 +115,7 @@ def generate_LABFT():
 		file.write("\tlogic [1*inputBits+1*arraySize-1:0] d_" + str(i) + "_acc;\n")
 	file.write("\tlogic [addressWidth-1:0] dot_nxn_selector;\n")
 	file.write("\tlogic dot_nxn_clear;\n")
-	file.write("\tabcd_n_acc_n abcd_n_acc_n(clk, rst, validInputs,\n")
+	file.write("\tabcd_n_acc_n abcd_n_acc_n(clk, rst, interrupt, validInputs,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ", a_" + str(i) + "_acc, b_" + str(i) + "_acc, c_" + str(i) + "_acc, d_" + str(i) + "_acc,\n")
 	file.write("\t\t\t\t\t\t\t\tdot_nxn_selector, dot_nxn_clear);\n")
@@ -121,7 +123,7 @@ def generate_LABFT():
 	file.write("\t//e\n")
 	for i in range(0, arraySize):
 		file.write("\tlogic [1*inputBits+1*arraySize-1:0] e_" + str(i) + "_acc;\n")
-	file.write("\te_n_acc_n e_n_acc_n(clk, rst, validInputs,\n")
+	file.write("\te_n_acc_n e_n_acc_n(clk, rst, interrupt, validInputs,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\te_" + str(i) + ", e_" + str(i) + "_acc,\n")
 	file.seek(0, os.SEEK_END)
@@ -145,14 +147,14 @@ def generate_LABFT():
 	file.write("\tlogic [2*inputBits+3*arraySize-1:0] y_acc;\n")
 	file.write("\tlogic [2*inputBits+3*arraySize-1:0] z_acc;\n")
 	file.write("\tlogic valid_acc;\n")
-	file.write("\twxyz_acc_nxn wxyz_acc_nxn(clk, rst, validOutputs, valid_acc,\n")
+	file.write("\twxyz_acc_nxn wxyz_acc_nxn(clk, rst, interrupt, validOutputs, valid_acc,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\t\tw_" + str(i) + ", x_" + str(i) + ", y_" + str(i) + ", z_" + str(i) + ",\n")
 	file.write("\t\t\t\t\t\t\t\tw_acc, x_acc, y_acc, z_acc);\n")
 	file.write("\n")
 	##### DETECTOR
 	file.write("\t//labft_error_detector\n")
-	file.write("\tlabft_error_detector #(arraySize) labft_error_detector(clk, rst, valid_dot, valid_acc,\n")
+	file.write("\tlabft_error_detector #(arraySize) labft_error_detector(clk, rst, interrupt, valid_dot, valid_acc,\n")
 	file.write("\t\t\t\t\t\t\t\t\tae_dot, be_dot, ce_dot, de_dot,\n")
 	file.write("\t\t\t\t\t\t\t\t\tw_acc, x_acc, y_acc, z_acc,\n")
 	file.write("\t\t\t\t\t\t\t\t\terror);\n")
@@ -179,6 +181,7 @@ def generate_ABCD_N_Acc_N():
 	file.write("(\n")
 	file.write("\tinput logic clk,\n")
 	file.write("\tinput logic rst,\n")
+	file.write("\tinput logic interrupt,\n")
 	file.write("\tinput logic valid,\n")
 	for i in range(0, arraySize):
 		file.write("\tinput logic [aBits-1:0] a_" + str(i) + ",\n")
@@ -199,10 +202,10 @@ def generate_ABCD_N_Acc_N():
 	file.write("\tlogic [addressWidth-1:0] counter_dff_in;\n")
 	file.write("\tlogic [addressWidth-1:0] counter_dff_out;\n")
 	file.write("\tassign counter_mux = (valid == 1'b1) ? (counter_dff_out + 1'b1):(counter_dff_out);\n")
-	file.write("\tassign counter_dff_in = (counter_dff_out == arraySize-1) ? ({addressWidth{1'b0}}):(counter_mux);\n")
+	file.write("\tassign counter_dff_in = ((counter_dff_out == arraySize-1) || (interrupt)) ? ({addressWidth{1'b0}}):(counter_mux);\n")
 	file.write("\tdff #(addressWidth) dff_counter(clk, rst, counter_dff_in, counter_dff_out);\n")
 	file.write("\tlogic clear;\n")
-	file.write("\tassign clear = (counter_dff_out == arraySize-1) ? 1'b1:1'b0;\n")
+	file.write("\tassign clear = ((counter_dff_out == arraySize-1) || (interrupt)) ? 1'b1:1'b0;\n")
 	for i in range(0, arraySize):
 		file.write("\t//column" + str(i) + "\n")
 		file.write("\tlogic clear_" + str(i) + ";\n")
@@ -263,10 +266,11 @@ def generate_E_N_Acc_N():
 	file.write("(\n")
 	file.write("\tinput logic clk,\n")
 	file.write("\tinput logic rst,\n")
+	file.write("\tinput logic interrupt,\n")
 	file.write("\tinput logic valid,\n")
 	for i in range(0, arraySize):
-		file.write("\tinput logic [aBits-1:0] a_" + str(i) + ",\n")
-		file.write("\toutput logic [zBits-1:0] z_"+ str(i) + ",\n")
+		file.write("\tinput logic [aBits-1:0] e_" + str(i) + ",\n")
+		file.write("\toutput logic [zBits-1:0] e_acc_"+ str(i) + ",\n")
 	file.seek(0, os.SEEK_END)
 	file.seek(file.tell()-2, os.SEEK_SET)
 	file.write("\n")
@@ -275,11 +279,13 @@ def generate_E_N_Acc_N():
 
 	#stage 0
 	file.write("\t//control\n")
-	file.write("\tlogic [addressWidth-1:0] counter_mux;\n")
+	file.write("\tlogic [addressWidth-1:0] counter_mux_0;\n")
+	file.write("\tlogic [addressWidth-1:0] counter_mux_1;\n")
 	file.write("\tlogic [addressWidth-1:0] counter_dff_in;\n")
 	file.write("\tlogic [addressWidth-1:0] counter_dff_out;\n")
-	file.write("\tassign counter_mux = (valid == 1'b1) ? (counter_dff_out + 1'b1):(counter_dff_out);\n")
-	file.write("\tassign counter_dff_in = (counter_dff_out == arraySize) ? (counter_dff_out):(counter_mux);\n")
+	file.write("\tassign counter_mux_0 = (valid == 1'b1) ? (counter_dff_out + 1'b1):(counter_dff_out);\n")
+	file.write("\tassign counter_mux_1 = (counter_dff_out <= arraySize-1) ? (counter_mux_0):(counter_dff_out);\n")
+	file.write("\tassign counter_dff_in = (interrupt) ? ({addressWidth{1'b0}}):(counter_mux_1);\n")
 	file.write("\tdff #(addressWidth) dff_counter(clk, rst, counter_dff_in, counter_dff_out);\n")
 	file.write("\tlogic enable;\n")
 	file.write("\tassign enable = ((valid == 1'b1) && (counter_dff_out <= arraySize-1)) ? 1'b1:1'b0;\n")
@@ -287,9 +293,9 @@ def generate_E_N_Acc_N():
 	for i in range(0, arraySize):
 		file.write("\t//column " + str(i) + "\n")
 		file.write("\tlogic [aBits-1:0] acc_n_" + str(i) + "_in;\n")
-		file.write("\tassign acc_n_" + str(i) + "_in = (enable) ? (a_" + str(i) + "):({aBits{1'b0}});\n")
+		file.write("\tassign acc_n_" + str(i) + "_in = (enable) ? (e_" + str(i) + "):({aBits{1'b0}});\n")
 		file.write("\tlogic [zBits-1:0] acc_n_" + str(i) + "_out;\n")
-		file.write("\tacc_n #(aBits, zBits) acc_n_" + str(i) + "(clk, rst, acc_n_" + str(i) + "_in, 1'b0, z_" + str(i) + ");\n")
+		file.write("\tacc_n #(aBits, zBits) acc_n_" + str(i) + "(clk, rst, acc_n_" + str(i) + "_in, interrupt, e_acc_" + str(i) + ");\n")
 	file.write("\n")
 
 	file.write("endmodule")
@@ -465,6 +471,7 @@ def generate_WXYZ_Acc_NxN():
 	file.write("(\n")
 	file.write("\tinput logic clk,\n")
 	file.write("\tinput logic rst,\n")
+	file.write("\tinput logic interrupt,\n")
 	file.write("\tinput logic valid,\n")
 	file.write("\toutput logic valid_out,\n")
 	for i in range(0, arraySize):
@@ -485,7 +492,7 @@ def generate_WXYZ_Acc_NxN():
 	file.write("\tlogic [addressWidth-1:0] counter_dff_in;\n")
 	file.write("\tlogic [addressWidth-1:0] counter_dff_out;\n")
 	file.write("\tassign counter_mux = (valid == 1'b1) ? (counter_dff_out + 1'b1):(counter_dff_out);\n")
-	file.write("\tassign counter_dff_in = (counter_dff_out == arraySize-1) ? ({addressWidth{1'b0}}):(counter_mux);\n")
+	file.write("\tassign counter_dff_in = ((counter_dff_out == arraySize-1) || (interrupt)) ? ({addressWidth{1'b0}}):(counter_mux);\n")
 	file.write("\tdff #(addressWidth) dff_counter(clk, rst, counter_dff_in, counter_dff_out);\n")
 	file.write("\tlogic clear_0;\n")
 	file.write("\tassign clear_0 = ((valid == 1'b0) || (counter_dff_out == arraySize-1)) ? 1'b1:1'b0;\n")

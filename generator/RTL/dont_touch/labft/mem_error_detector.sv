@@ -5,6 +5,7 @@ module mem_error_detector
 (
     input logic clk,
     input logic rst,
+    input logic interrupt,
     input logic validOutputs,
     input logic [arraySize-1:0] mem_abcd_errors,
     input logic [arraySize-1:0] mem_e_errors,
@@ -19,7 +20,7 @@ module mem_error_detector
     assign error_flags = {mem_abcd_errors, mem_e_errors, mem_w_errors, mem_x_errors, mem_y_errors, mem_z_errors};
     
     //control
-    typedef enum logic [1:0] {idleState=2'd0, normalState, errorState} stateType;
+    typedef enum logic [1:0] {idleState=2'd0, delayState, normalState, errorState} stateType;
     stateType currentState, nextState;
     dff #(2) state(clk, rst, nextState[1:0], currentState[1:0]);
     
@@ -31,15 +32,19 @@ module mem_error_detector
         unique case(currentState)
             idleState: begin
                 dff_error_in = {6*arraySize{1'b0}};
-                nextState = (validOutputs) ? normalState:idleState;
+                nextState = (validOutputs) ? delayState:idleState;
+            end
+            delayState: begin
+                dff_error_in = {6*arraySize{1'b0}};
+                nextState = normalState;
             end
             normalState: begin
                 dff_error_in = error_flags;
-                nextState = (error_flags == {6*arraySize{1'b0}}) ? normalState:errorState;
+                nextState = (error_flags != {6*arraySize{1'b0}}) ? ((interrupt) ? idleState:errorState) : ((interrupt) ? idleState:normalState);
             end
             errorState: begin
                 dff_error_in = dff_error_out;
-                nextState = errorState;
+                nextState = (interrupt) ? idleState:errorState;
             end
         endcase
     end

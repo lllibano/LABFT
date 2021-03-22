@@ -98,7 +98,8 @@ def generateTop():
 		if(levelOfHardness >= 3):
 			file.write("\tlogic mem_e_" + str(i) + "_error;\n")
 		file.write("\tlogic [inputBits-1:0] array_e_" + str(i) + "_input;\n")
-		file.write("\tlogic [inputBits-1:0] array_e_" + str(i) + "_output;\n")
+		if(levelOfHardness >= 1):
+			file.write("\tlogic [inputBits-1:0] array_e_" + str(i) + "_output;\n")
 	file.write("\t//wxyz\n")
 	for i in range(arraySize):
 		file.write("\t//column" + str(i) + "\n")
@@ -176,7 +177,8 @@ def generateTop():
 		file.write("\t\t\t\t\t\t\t\t\t\t array_a_" + str(i) + "_input, array_b_" + str(i) + "_input, array_c_" + str(i) + "_input, array_d_" + str(i) + "_input,\n")
 		file.write("\t\t\t\t\t\t\t\t\t\t array_e_" + str(i) + "_input,\n")
 		file.write("\t\t\t\t\t\t\t\t\t\t array_w_" + str(i) + "_output, array_x_" + str(i) + "_output, array_y_" + str(i) + "_output, array_z_" + str(i) + "_output,\n")
-		file.write("\t\t\t\t\t\t\t\t\t\t array_e_" + str(i) + "_output,\n")
+		if(levelOfHardness >= 1):
+			file.write("\t\t\t\t\t\t\t\t\t\t array_e_" + str(i) + "_output,\n")
 	file.seek(0, os.SEEK_END)
 	file.seek(file.tell()-2, os.SEEK_SET)
 	file.write(");\n")
@@ -224,10 +226,10 @@ def generateTop():
 	if(levelOfHardness > 0):
 		if(levelOfHardness == 1):
 			file.write("\t//LABFT\n")
-			file.write("\tlabft labft(clk, rst, validInputs_0, wxyzWriteEnable_0,\n")
+			file.write("\tlabft labft(clk, rst, interrupt, validInputs_0, wxyzWriteEnable_0,\n")
 		elif(levelOfHardness >= 2):
 			file.write("\t//DWC LABFT\n")
-			file.write("\tdwc_labft labft(clk, rst, validInputs_0, wxyzWriteEnable_0,\n")	
+			file.write("\tdwc_labft labft(clk, rst, interrupt, validInputs_0, wxyzWriteEnable_0,\n")	
 		for i in range(0, arraySize):
 			file.write("\t\t\t\t\tarray_a_" + str(i) + "_input, array_b_" + str(i) + "_input, array_c_" + str(i) + "_input, array_d_" + str(i) + "_input,\n")
 		for i in range(0, arraySize):
@@ -260,7 +262,7 @@ def generateTop():
 		file.write("\tlogic [arraySize-1:0] mem_z_errors;\n");
 		for i in range(0, arraySize):
 			file.write("\tassign mem_z_errors[" + str(i) + "] = mem_z_" + str(i) + "_error;\n")
-		file.write("\tmem_error_detector #(arraySize) mem_error_detector(clk, rst, wxyzWriteEnable_0,\n")
+		file.write("\tmem_error_detector #(arraySize) mem_error_detector(clk, rst, interrupt, wxyzWriteEnable_" + str(arraySize-1) + ",\n")
 		file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\tmem_abcd_errors,\n")
 		file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\tmem_e_errors,\n")
 		file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\tmem_w_errors, mem_x_errors, mem_y_errors, mem_z_errors,\n")
