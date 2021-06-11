@@ -216,100 +216,116 @@ module array //4x4
 	//line 0
 	//pe 0 0
 	int8_pe #(inputBits, outputBits) pe_0_0(clk, rst, clk2x,
-											in_side_0_a, in_side_0_b, in_side_0_c, in_side_0_d, in_top_0_e, loadingWeights,
+											in_side_0_a, in_side_0_b, in_side_0_c, in_side_0_d, in_top_0_e, 
+											loadingWeights,
 											{outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}},
 											pe_0_0_out_a, pe_0_0_out_b, pe_0_0_out_c, pe_0_0_out_d, pe_0_0_out_e,
 											pe_0_0_out_w, pe_0_0_out_x, pe_0_0_out_y, pe_0_0_out_z);
 	//pe 0 1
 	int8_pe #(inputBits, outputBits) pe_0_1(clk, rst, clk2x,
-											pe_0_0_out_a, pe_0_0_out_b, pe_0_0_out_c, pe_0_0_out_d, in_top_1_e, loadingWeights,
+											pe_0_0_out_a, pe_0_0_out_b, pe_0_0_out_c, pe_0_0_out_d, in_top_1_e, 
+											loadingWeights,
 											{outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}},
 											pe_0_1_out_a, pe_0_1_out_b, pe_0_1_out_c, pe_0_1_out_d, pe_0_1_out_e,
 											pe_0_1_out_w, pe_0_1_out_x, pe_0_1_out_y, pe_0_1_out_z);
 	//pe 0 2
 	int8_pe #(inputBits, outputBits) pe_0_2(clk, rst, clk2x,
-											pe_0_1_out_a, pe_0_1_out_b, pe_0_1_out_c, pe_0_1_out_d, in_top_2_e, loadingWeights,
+											pe_0_1_out_a, pe_0_1_out_b, pe_0_1_out_c, pe_0_1_out_d, in_top_2_e, 
+											loadingWeights,
 											{outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}},
 											pe_0_2_out_a, pe_0_2_out_b, pe_0_2_out_c, pe_0_2_out_d, pe_0_2_out_e,
 											pe_0_2_out_w, pe_0_2_out_x, pe_0_2_out_y, pe_0_2_out_z);
 	//pe 0 3
 	int8_pe #(inputBits, outputBits) pe_0_3(clk, rst, clk2x,
-											pe_0_2_out_a, pe_0_2_out_b, pe_0_2_out_c, pe_0_2_out_d, in_top_3_e, loadingWeights,
+											pe_0_2_out_a, pe_0_2_out_b, pe_0_2_out_c, pe_0_2_out_d, in_top_3_e, 
+											loadingWeights,
 											{outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}},
 											pe_0_3_out_a, pe_0_3_out_b, pe_0_3_out_c, pe_0_3_out_d, pe_0_3_out_e,
 											pe_0_3_out_w, pe_0_3_out_x, pe_0_3_out_y, pe_0_3_out_z);
 	//line 1
 	//pe 1 0
 	int8_pe #(inputBits, outputBits) pe_1_0(clk, rst, clk2x,
-											in_side_1_a, in_side_1_b, in_side_1_c, in_side_1_d, pe_0_0_out_e, loadingWeights,
+											in_side_1_a, in_side_1_b, in_side_1_c, in_side_1_d, pe_0_0_out_e, 
+											loadingWeights,
 											pe_0_0_out_w, pe_0_0_out_x, pe_0_0_out_y, pe_0_0_out_z,
 											pe_1_0_out_a, pe_1_0_out_b, pe_1_0_out_c, pe_1_0_out_d, pe_1_0_out_e,
 											pe_1_0_out_w, pe_1_0_out_x, pe_1_0_out_y, pe_1_0_out_z);
 	//pe 1 1
 	int8_pe #(inputBits, outputBits) pe_1_1(clk, rst, clk2x,
-											pe_1_0_out_a, pe_1_0_out_b, pe_1_0_out_c, pe_1_0_out_d, pe_0_1_out_e, loadingWeights,
+											pe_1_0_out_a, pe_1_0_out_b, pe_1_0_out_c, pe_1_0_out_d, pe_0_1_out_e, 
+											loadingWeights,
 											pe_0_1_out_w, pe_0_1_out_x, pe_0_1_out_y, pe_0_1_out_z,
 											pe_1_1_out_a, pe_1_1_out_b, pe_1_1_out_c, pe_1_1_out_d, pe_1_1_out_e,
 											pe_1_1_out_w, pe_1_1_out_x, pe_1_1_out_y, pe_1_1_out_z);
 	//pe 1 2
 	int8_pe #(inputBits, outputBits) pe_1_2(clk, rst, clk2x,
-											pe_1_1_out_a, pe_1_1_out_b, pe_1_1_out_c, pe_1_1_out_d, pe_0_2_out_e, loadingWeights,
+											pe_1_1_out_a, pe_1_1_out_b, pe_1_1_out_c, pe_1_1_out_d, pe_0_2_out_e, 
+											loadingWeights,
 											pe_0_2_out_w, pe_0_2_out_x, pe_0_2_out_y, pe_0_2_out_z,
 											pe_1_2_out_a, pe_1_2_out_b, pe_1_2_out_c, pe_1_2_out_d, pe_1_2_out_e,
 											pe_1_2_out_w, pe_1_2_out_x, pe_1_2_out_y, pe_1_2_out_z);
 	//pe 1 3
 	int8_pe #(inputBits, outputBits) pe_1_3(clk, rst, clk2x,
-											pe_1_2_out_a, pe_1_2_out_b, pe_1_2_out_c, pe_1_2_out_d, pe_0_3_out_e, loadingWeights,
+											pe_1_2_out_a, pe_1_2_out_b, pe_1_2_out_c, pe_1_2_out_d, pe_0_3_out_e, 
+											loadingWeights,
 											pe_0_3_out_w, pe_0_3_out_x, pe_0_3_out_y, pe_0_3_out_z,
 											pe_1_3_out_a, pe_1_3_out_b, pe_1_3_out_c, pe_1_3_out_d, pe_1_3_out_e,
 											pe_1_3_out_w, pe_1_3_out_x, pe_1_3_out_y, pe_1_3_out_z);
 	//line 2
 	//pe 2 0
 	int8_pe #(inputBits, outputBits) pe_2_0(clk, rst, clk2x,
-											in_side_2_a, in_side_2_b, in_side_2_c, in_side_2_d, pe_1_0_out_e, loadingWeights,
+											in_side_2_a, in_side_2_b, in_side_2_c, in_side_2_d, pe_1_0_out_e, 
+											loadingWeights,
 											pe_1_0_out_w, pe_1_0_out_x, pe_1_0_out_y, pe_1_0_out_z,
 											pe_2_0_out_a, pe_2_0_out_b, pe_2_0_out_c, pe_2_0_out_d, pe_2_0_out_e,
 											pe_2_0_out_w, pe_2_0_out_x, pe_2_0_out_y, pe_2_0_out_z);
 	//pe 2 1
 	int8_pe #(inputBits, outputBits) pe_2_1(clk, rst, clk2x,
-											pe_2_0_out_a, pe_2_0_out_b, pe_2_0_out_c, pe_2_0_out_d, pe_1_1_out_e, loadingWeights,
+											pe_2_0_out_a, pe_2_0_out_b, pe_2_0_out_c, pe_2_0_out_d, pe_1_1_out_e, 
+											loadingWeights,
 											pe_1_1_out_w, pe_1_1_out_x, pe_1_1_out_y, pe_1_1_out_z,
 											pe_2_1_out_a, pe_2_1_out_b, pe_2_1_out_c, pe_2_1_out_d, pe_2_1_out_e,
 											pe_2_1_out_w, pe_2_1_out_x, pe_2_1_out_y, pe_2_1_out_z);
 	//pe 2 2
 	int8_pe #(inputBits, outputBits) pe_2_2(clk, rst, clk2x,
-											pe_2_1_out_a, pe_2_1_out_b, pe_2_1_out_c, pe_2_1_out_d, pe_1_2_out_e, loadingWeights,
+											pe_2_1_out_a, pe_2_1_out_b, pe_2_1_out_c, pe_2_1_out_d, pe_1_2_out_e, 
+											loadingWeights,
 											pe_1_2_out_w, pe_1_2_out_x, pe_1_2_out_y, pe_1_2_out_z,
 											pe_2_2_out_a, pe_2_2_out_b, pe_2_2_out_c, pe_2_2_out_d, pe_2_2_out_e,
 											pe_2_2_out_w, pe_2_2_out_x, pe_2_2_out_y, pe_2_2_out_z);
 	//pe 2 3
 	int8_pe #(inputBits, outputBits) pe_2_3(clk, rst, clk2x,
-											pe_2_2_out_a, pe_2_2_out_b, pe_2_2_out_c, pe_2_2_out_d, pe_1_3_out_e, loadingWeights,
+											pe_2_2_out_a, pe_2_2_out_b, pe_2_2_out_c, pe_2_2_out_d, pe_1_3_out_e, 
+											loadingWeights,
 											pe_1_3_out_w, pe_1_3_out_x, pe_1_3_out_y, pe_1_3_out_z,
 											pe_2_3_out_a, pe_2_3_out_b, pe_2_3_out_c, pe_2_3_out_d, pe_2_3_out_e,
 											pe_2_3_out_w, pe_2_3_out_x, pe_2_3_out_y, pe_2_3_out_z);
 	//line 3
 	//pe 3 0
 	int8_pe #(inputBits, outputBits) pe_3_0(clk, rst, clk2x,
-											in_side_3_a, in_side_3_b, in_side_3_c, in_side_3_d, pe_2_0_out_e, loadingWeights,
+											in_side_3_a, in_side_3_b, in_side_3_c, in_side_3_d, pe_2_0_out_e, 
+											loadingWeights,
 											pe_2_0_out_w, pe_2_0_out_x, pe_2_0_out_y, pe_2_0_out_z,
 											pe_3_0_out_a, pe_3_0_out_b, pe_3_0_out_c, pe_3_0_out_d, pe_3_0_out_e,
 											pe_3_0_out_w, pe_3_0_out_x, pe_3_0_out_y, pe_3_0_out_z);
 	//pe 3 1
 	int8_pe #(inputBits, outputBits) pe_3_1(clk, rst, clk2x,
-											pe_3_0_out_a, pe_3_0_out_b, pe_3_0_out_c, pe_3_0_out_d, pe_2_1_out_e, loadingWeights,
+											pe_3_0_out_a, pe_3_0_out_b, pe_3_0_out_c, pe_3_0_out_d, pe_2_1_out_e, 
+											loadingWeights,
 											pe_2_1_out_w, pe_2_1_out_x, pe_2_1_out_y, pe_2_1_out_z,
 											pe_3_1_out_a, pe_3_1_out_b, pe_3_1_out_c, pe_3_1_out_d, pe_3_1_out_e,
 											pe_3_1_out_w, pe_3_1_out_x, pe_3_1_out_y, pe_3_1_out_z);
 	//pe 3 2
 	int8_pe #(inputBits, outputBits) pe_3_2(clk, rst, clk2x,
-											pe_3_1_out_a, pe_3_1_out_b, pe_3_1_out_c, pe_3_1_out_d, pe_2_2_out_e, loadingWeights,
+											pe_3_1_out_a, pe_3_1_out_b, pe_3_1_out_c, pe_3_1_out_d, pe_2_2_out_e, 
+											loadingWeights,
 											pe_2_2_out_w, pe_2_2_out_x, pe_2_2_out_y, pe_2_2_out_z,
 											pe_3_2_out_a, pe_3_2_out_b, pe_3_2_out_c, pe_3_2_out_d, pe_3_2_out_e,
 											pe_3_2_out_w, pe_3_2_out_x, pe_3_2_out_y, pe_3_2_out_z);
 	//pe 3 3
 	int8_pe #(inputBits, outputBits) pe_3_3(clk, rst, clk2x,
-											pe_3_2_out_a, pe_3_2_out_b, pe_3_2_out_c, pe_3_2_out_d, pe_2_3_out_e, loadingWeights,
+											pe_3_2_out_a, pe_3_2_out_b, pe_3_2_out_c, pe_3_2_out_d, pe_2_3_out_e, 
+											loadingWeights,
 											pe_2_3_out_w, pe_2_3_out_x, pe_2_3_out_y, pe_2_3_out_z,
 											pe_3_3_out_a, pe_3_3_out_b, pe_3_3_out_c, pe_3_3_out_d, pe_3_3_out_e,
 											pe_3_3_out_w, pe_3_3_out_x, pe_3_3_out_y, pe_3_3_out_z);

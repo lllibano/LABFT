@@ -1,70 +1,5 @@
 from settings import *
 
-def generate_DWC_LABFT():
-	print("\t\tGenerating DWC_LABFT...")
-
-	file = open(generatedPath + "dwc_labft.sv", "w")
-
-	#parameters & interface
-	file.write("module dwc_labft //" + str(arraySize) + "x" + str(arraySize) + "\n")
-	file.write("#(\n")
-	file.write("\tparameter arraySize = " + str(arraySize) + ",\n")
-	file.write("\tparameter inputBits = " + str(inputBits) + ",\n")
-	file.write("\tparameter outputBits = " + str(outputBits) + ",\n")
-	file.write("\tparameter addressWidth = " + str(int(m.ceil(m.log2(arraySize)))) + "\n")
-	file.write(")\n")
-	file.write("(\n")
-	file.write("\t//CLK, RST\n")
-	file.write("\tinput logic clk,\n")
-	file.write("\tinput logic rst,\n")
-	file.write("\tinput logic interrupt,\n")
-	file.write("\t//Control\n")
-	file.write("\tinput logic validInputs,\n")
-	file.write("\tinput logic validOutputs,\n")
-	file.write("\t//ABCD\n")
-	for i in range(0, arraySize):
-		file.write("\tinput logic [inputBits-1:0] a_" + str(i) + ",\n")
-		file.write("\tinput logic [inputBits-1:0] b_" + str(i) + ",\n")
-		file.write("\tinput logic [inputBits-1:0] c_" + str(i) + ",\n")
-		file.write("\tinput logic [inputBits-1:0] d_" + str(i) + ",\n")
-	file.write("\t//E\n")
-	for i in range(0, arraySize):
-		file.write("\tinput logic [inputBits-1:0] e_" + str(i) + ",\n")
-	file.write("\t//WXYZ\n")
-	for i in range(0, arraySize):
-		file.write("\tinput logic [outputBits-1:0] w_" + str(i) + ",\n")
-		file.write("\tinput logic [outputBits-1:0] x_" + str(i) + ",\n")
-		file.write("\tinput logic [outputBits-1:0] y_" + str(i) + ",\n")
-		file.write("\tinput logic [outputBits-1:0] z_" + str(i) + ",\n")
-	file.write("\t//Error Detection\n")
-	file.write("\toutput logic [" + str(2*parallelismLevel-1) + ":0] error\n")
-	file.write(");\n")
-	file.write("\n")
-
-	file.write("\t(* dont_touch = \"true\" *) labft labft_0(clk, rst, interrupt, validInputs, validOutputs,\n")
-	for i in range(0, arraySize):
-		file.write("\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ",\n")
-	for i in range(0, arraySize):
-		file.write("\t\t\t\t\te_" + str(i) + ",\n")
-	for i in range(0, arraySize):
-		file.write("\t\t\t\t\tw_" + str(i) + ", x_" + str(i) + ", y_" + str(i) + ", z_" + str(i) + ",\n")
-	file.write("\t\t\t\t\terror[" + str(parallelismLevel-1) + ":0]);\n")
-	file.write("\n")
-
-	file.write("\t(* dont_touch = \"true\" *) labft labft_1(clk, rst, interrupt, validInputs, validOutputs,\n")
-	for i in range(0, arraySize):
-		file.write("\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ",\n")
-	for i in range(0, arraySize):
-		file.write("\t\t\t\t\te_" + str(i) + ",\n")
-	for i in range(0, arraySize):
-		file.write("\t\t\t\t\tw_" + str(i) + ", x_" + str(i) + ", y_" + str(i) + ", z_" + str(i) + ",\n")
-	file.write("\t\t\t\t\terror[" + str(2*parallelismLevel-1) + ":" + str(parallelismLevel) + "]);\n")
-	file.write("\n")
-
-	file.write("endmodule")
-
-	file.close()
-
 def generate_LABFT():
 	print("\t\tGenerating LABFT...")
 
@@ -84,6 +19,7 @@ def generate_LABFT():
 	file.write("\tinput logic rst,\n")
 	file.write("\tinput logic interrupt,\n")
 	file.write("\t//Control\n")
+	file.write("\tinput logic loadingWeights,\n")
 	file.write("\tinput logic validInputs,\n")
 	file.write("\tinput logic validOutputs,\n")
 	file.write("\t//ABCD\n")
@@ -109,6 +45,16 @@ def generate_LABFT():
 	##### ABCD
 	file.write("\t//abcd\n")
 	for i in range(0, arraySize):
+		file.write("\tlogic [inputBits-1:0] a_" + str(i) + "_clean;\n")
+		file.write("\tlogic [inputBits-1:0] b_" + str(i) + "_clean;\n")
+		file.write("\tlogic [inputBits-1:0] c_" + str(i) + "_clean;\n")
+		file.write("\tlogic [inputBits-1:0] d_" + str(i) + "_clean;\n")
+	for i in range(0, arraySize):
+		file.write("\tassign a_" + str(i) + "_clean = (validInputs) ? a_" + str(i) + ":{inputBits{1'b0}};\n")
+		file.write("\tassign b_" + str(i) + "_clean = (validInputs) ? b_" + str(i) + ":{inputBits{1'b0}};\n")
+		file.write("\tassign c_" + str(i) + "_clean = (validInputs) ? c_" + str(i) + ":{inputBits{1'b0}};\n")
+		file.write("\tassign d_" + str(i) + "_clean = (validInputs) ? d_" + str(i) + ":{inputBits{1'b0}};\n")
+	for i in range(0, arraySize):
 		file.write("\tlogic [1*inputBits+1*arraySize-1:0] a_" + str(i) + "_acc;\n")
 		file.write("\tlogic [1*inputBits+1*arraySize-1:0] b_" + str(i) + "_acc;\n")
 		file.write("\tlogic [1*inputBits+1*arraySize-1:0] c_" + str(i) + "_acc;\n")
@@ -117,13 +63,13 @@ def generate_LABFT():
 	file.write("\tlogic dot_nxn_clear;\n")
 	file.write("\tabcd_n_acc_n abcd_n_acc_n(clk, rst, interrupt, validInputs,\n")
 	for i in range(0, arraySize):
-		file.write("\t\t\t\t\t\t\t\ta_" + str(i) + ", b_" + str(i) + ", c_" + str(i) + ", d_" + str(i) + ", a_" + str(i) + "_acc, b_" + str(i) + "_acc, c_" + str(i) + "_acc, d_" + str(i) + "_acc,\n")
+		file.write("\t\t\t\t\t\t\t\ta_" + str(i) + "_clean, b_" + str(i) + "_clean, c_" + str(i) + "_clean, d_" + str(i) + "_clean, a_" + str(i) + "_acc, b_" + str(i) + "_acc, c_" + str(i) + "_acc, d_" + str(i) + "_acc,\n")
 	file.write("\t\t\t\t\t\t\t\tdot_nxn_selector, dot_nxn_clear);\n")
 	##### E
 	file.write("\t//e\n")
 	for i in range(0, arraySize):
 		file.write("\tlogic [1*inputBits+1*arraySize-1:0] e_" + str(i) + "_acc;\n")
-	file.write("\te_n_acc_n e_n_acc_n(clk, rst, interrupt, validInputs,\n")
+	file.write("\te_n_acc_n e_n_acc_n(clk, rst, interrupt, loadingWeights, validInputs,\n")
 	for i in range(0, arraySize):
 		file.write("\t\t\t\t\t\t\te_" + str(i) + ", e_" + str(i) + "_acc,\n")
 	file.seek(0, os.SEEK_END)
@@ -267,6 +213,7 @@ def generate_E_N_Acc_N():
 	file.write("\tinput logic clk,\n")
 	file.write("\tinput logic rst,\n")
 	file.write("\tinput logic interrupt,\n")
+	file.write("\tinput logic loading,\n")
 	file.write("\tinput logic valid,\n")
 	for i in range(0, arraySize):
 		file.write("\tinput logic [aBits-1:0] e_" + str(i) + ",\n")
@@ -277,7 +224,19 @@ def generate_E_N_Acc_N():
 	file.write(");\n")
 	file.write("\n")
 
-	#stage 0
+	file.write("\t//e_move_nxn\n")
+	for i in range(0, arraySize):
+		file.write("\tlogic [aBits-1:0] e_" + str(i) + "_side;\n")
+	file.write("\te_move_nxn e_move_nxn(clk, rst, loading, ")
+	for i in range(0, arraySize):
+		file.write("e_" + str(i) + ", ")
+	for i in range(0, arraySize):
+		file.write("e_" + str(i) + "_side, ")
+	file.seek(0, os.SEEK_END)
+	file.seek(file.tell()-2, os.SEEK_SET)
+	file.write(");\n")
+	file.write("\n")
+
 	file.write("\t//control\n")
 	file.write("\tlogic [addressWidth-1:0] counter_mux_0;\n")
 	file.write("\tlogic [addressWidth-1:0] counter_mux_1;\n")
@@ -293,7 +252,7 @@ def generate_E_N_Acc_N():
 	for i in range(0, arraySize):
 		file.write("\t//column " + str(i) + "\n")
 		file.write("\tlogic [aBits-1:0] acc_n_" + str(i) + "_in;\n")
-		file.write("\tassign acc_n_" + str(i) + "_in = (enable) ? (e_" + str(i) + "):({aBits{1'b0}});\n")
+		file.write("\tassign acc_n_" + str(i) + "_in = (enable) ? (e_" + str(i) + "_side):({aBits{1'b0}});\n")
 		file.write("\tlogic [zBits-1:0] acc_n_" + str(i) + "_out;\n")
 		file.write("\tacc_n #(aBits, zBits) acc_n_" + str(i) + "(clk, rst, acc_n_" + str(i) + "_in, interrupt, e_acc_" + str(i) + ");\n")
 	file.write("\n")
@@ -588,8 +547,6 @@ def generate_Acc_NxN():
 
 def generateLABFT():
 	print("\t### LABFT...")
-	if(levelOfHardness >= 2):
-		generate_DWC_LABFT()
 	generate_LABFT()
 	generate_ABCD_N_Acc_N() #ABCD
 	generate_E_N_Acc_N() #E

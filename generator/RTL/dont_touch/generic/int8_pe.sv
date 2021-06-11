@@ -28,14 +28,11 @@ module int8_pe
     output logic [outputBits-1:0] z
 );
 
-    logic [inputBits-1:0] e_in;
-
     dff #(inputBits) dff_a(clk, rst, a, a_out);
     dff #(inputBits) dff_b(clk, rst, b, b_out);
     dff #(inputBits) dff_c(clk, rst, c, c_out);
     dff #(inputBits) dff_d(clk, rst, d, d_out);
-    assign e_in = (e_enable) ? e:e_out;
-    dff #(inputBits) dff_e(clk, rst, e_in, e_out);
+    dff_enbl #(inputBits) dff_e(clk, e_enable, e, e_out);
     int8_quad_mac #(inputBits, inputBits, inputBits, inputBits, inputBits, outputBits) int8_quad_mac(clk, rst, clk2x, a_out, b_out, c_out, d_out, e_out, s, t, u, v, w, x, y, z);
-
+    
 endmodule

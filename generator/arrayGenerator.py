@@ -26,8 +26,6 @@ def generateArray():
 		file.write("\toutput logic [outputBits-1:0] out_bottom_" + str(i) + "_x,\n")
 		file.write("\toutput logic [outputBits-1:0] out_bottom_" + str(i) + "_y,\n")
 		file.write("\toutput logic [outputBits-1:0] out_bottom_" + str(i) + "_z,\n")
-		if(levelOfHardness > 0):
-			file.write("\toutput logic [inputBits-1:0] out_side_" + str(i) + "_e,\n")
 	file.seek(0, os.SEEK_END)
 	file.seek(file.tell()-2, os.SEEK_SET)
 	file.write("\n")
@@ -49,8 +47,6 @@ def generateArray():
 			file.write("\tlogic [outputBits-1:0] pe_" + str(i) + "_" + str(j) + "_out_x;\n")
 			file.write("\tlogic [outputBits-1:0] pe_" + str(i) + "_" + str(j) + "_out_y;\n")
 			file.write("\tlogic [outputBits-1:0] pe_" + str(i) + "_" + str(j) + "_out_z;\n")
-			if(levelOfHardness > 0):
-				file.write("\tlogic [inputBits-1:0] pe_" + str(i) + "_" + str(j) + "_out_labft_e;\n")
 	file.write("\n")
 
 	#modules
@@ -65,22 +61,18 @@ def generateArray():
 			else: #default
 				file.write("\t\t\t\t\t\t\t\t\t\t\tpe_" + str(i) + "_" + str(j-1) + "_out_a, pe_" + str(i) + "_" + str(j-1) + "_out_b, pe_" + str(i) + "_" + str(j-1) + "_out_c, pe_" + str(i) + "_" + str(j-1) + "_out_d, ")
 			if(i == 0): #e from mem
-				file.write("in_top_" + str(j) + "_e, loadingWeights,\n")
+				file.write("in_top_" + str(j) + "_e, \n")
+				file.write("\t\t\t\t\t\t\t\t\t\t\tloadingWeights,\n")
 				file.write("\t\t\t\t\t\t\t\t\t\t\t{outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}}, {outputBits{1'b0}},\n")
 			else: #default
-				file.write("pe_" + str(i-1) + "_" + str(j) + "_out_e, loadingWeights,\n")
+				file.write("pe_" + str(i-1) + "_" + str(j) + "_out_e, \n")
+				file.write("\t\t\t\t\t\t\t\t\t\t\tloadingWeights,\n")
 				file.write("\t\t\t\t\t\t\t\t\t\t\tpe_" + str(i-1) + "_" + str(j) + "_out_w, pe_" + str(i-1) + "_" + str(j) + "_out_x, pe_" + str(i-1) + "_" + str(j) + "_out_y, pe_" + str(i-1) + "_" + str(j) + "_out_z,\n")
 			file.write("\t\t\t\t\t\t\t\t\t\t\tpe_" + str(i) + "_" + str(j) + "_out_a, pe_" + str(i) + "_" + str(j) + "_out_b, pe_" + str(i) + "_" + str(j) + "_out_c, pe_" + str(i) + "_" + str(j) + "_out_d, pe_" + str(i) + "_" + str(j) + "_out_e,\n")
 			file.write("\t\t\t\t\t\t\t\t\t\t\tpe_" + str(i) + "_" + str(j) + "_out_w, pe_" + str(i) + "_" + str(j) + "_out_x, pe_" + str(i) + "_" + str(j) + "_out_y, pe_" + str(i) + "_" + str(j) + "_out_z,\n")
-			if(levelOfHardness > 0):
-				if(j == arraySize-1): #labft e from nowhere
-					file.write("\t\t\t\t\t\t\t\t\t\t\t{inputBits{1'b0}}, pe_" + str(i) + "_" + str(j) + "_out_labft_e);\n")
-				else:
-					file.write("\t\t\t\t\t\t\t\t\t\t\tpe_" + str(i) + "_" + str(j+1) + "_out_labft_e, pe_" + str(i) + "_" + str(j) + "_out_labft_e);\n")
-			else:
-				file.seek(0, os.SEEK_END)
-				file.seek(file.tell()-2, os.SEEK_SET)
-				file.write(");\n")		
+			file.seek(0, os.SEEK_END)
+			file.seek(file.tell()-2, os.SEEK_SET)
+			file.write(");\n")		
 	file.write("\n")
 
 	#assigns
@@ -90,8 +82,6 @@ def generateArray():
 		file.write("\tassign out_bottom_" + str(i) + "_x = pe_" + str(arraySize-1) + "_" + str(i) + "_out_x;\n")
 		file.write("\tassign out_bottom_" + str(i) + "_y = pe_" + str(arraySize-1) + "_" + str(i) + "_out_y;\n")
 		file.write("\tassign out_bottom_" + str(i) + "_z = pe_" + str(arraySize-1) + "_" + str(i) + "_out_z;\n")
-		if(levelOfHardness > 0):
-			file.write("\tassign out_side_" + str(i) + "_e = pe_" + str(i) + "_" + str(0) + "_out_labft_e;\n")
 	file.write("\n")
 
 	file.write("endmodule")

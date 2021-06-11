@@ -27,15 +27,12 @@ def copyNewFiles():
 	for fileName in glob.glob(os.path.join(generatedPath, "*.*")):
 		shutil.copy(fileName, importMePath)
 
-	if(levelOfHardness > 0):
+	if(hardenedArray):
 		#copy from 'labft' to 'import_me'
 		level0Files = []
-		level1Files = level0Files + ["int8_pe.sv", "acc_n.sv", "mac_n.sv", "labft_error_detector.sv"]
-		level2Files = level1Files + []
-		level3Files = level2Files + ["dwc_mem.sv", "mem_error_detector.sv"]
-		level4Files = level3Files + ["tmr_fsm.sv", "tmr_dff.sv", "tmr_voter.sv", "maj3.sv"]
+		level1Files = level0Files + ["acc_n.sv", "mac_n.sv", "e_move_nxn.sv", "labft_error_detector.sv"]
 
-		filesPerLevel = [level0Files, level1Files, level2Files, level3Files, level4Files]
+		filesPerLevel = [level0Files, level1Files]
 
-		for fileName in filesPerLevel[levelOfHardness]:
+		for fileName in filesPerLevel[1]:
 			shutil.copy((labftPath+fileName), importMePath)
