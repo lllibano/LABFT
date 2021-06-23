@@ -1,5 +1,8 @@
-# Libano's Systolic Array Generator
+# Libano's Hardened Systolic Array Generator
 A parametric RTL code generator of an efficient integer MxM Systolic Array implementation for Xilinx FPGAs.
+This repository is an evil cousin to [Libano's Systolic Array Generator](https://github.com/lllibano/SystolicArray), with error detection capabilities.
+
+*This repository is also one of the contributions of an IEEE Transactions on Reliability paper that is currently under review.*
 
 ---
 
@@ -15,7 +18,8 @@ The adders responsible for accumulation are implemented with CLB<sup>[[7]](https
 
 Hence, the Processing Elements (PEs) that constitute the array are multiply-accumulate (MAC) units.
 
-![array-mem-pe](/docs/architecture.png)
+![systolic-arch](/docs/systolic-arch.png)
+![labft-arch](/docs/labft-arch.png)
 
 ---
 
@@ -23,22 +27,18 @@ Hence, the Processing Elements (PEs) that constitute the array are multiply-accu
 
 Given a systolic array of size NxN:
 - **DSPs:** N<sup>2</sup> DSP48E[1<sup>[[5]](https://www.xilinx.com/support/documentation/user_guides/ug479_7Series_DSP48E1.pdf)</sup>|2<sup>[[6]](https://www.xilinx.com/support/documentation/user_guides/ug579-ultrascale-dsp.pdf)</sup>] *(1 for each PE)*
-- **BRAMs:** 6N RAMB18E[1<sup>[[9]](https://www.xilinx.com/support/documentation/user_guides/ug473_7Series_Memory_Resources.pdf)</sup>|2<sup>[[10]](https://www.xilinx.com/support/documentation/user_guides/ug573-ultrascale-memory-resources.pdf)</sup>] *(N for each input/output matrix: ABCD,E,W,X,Y,Z)*
 - **Operations/Cycle:** 8N<sup>2</sup> *(N<sup>2</sup> PEs, 2x2xMUL + 4xADD per PE)*
 - **Frequency:** Will mostly depend target device, but can also depend on N *(![/validation/](/validation/))*
-	- 8x8/14x14 @ XC7Z020 @ 200MHz
-	- 8x8/14x14/32x32 @ XCZU9 @ 300MHz
-
-![testbench](/docs/testbench.png)
+	- 14x14 @ XC7Z020 @ 200MHz
+	- 32x32 @ XCZU9   @ 300MHz
 
 ---
 
 ## Repository Organization
 
 - ![/docs/](/docs/): Relevant repository documentation.
-- ![/example/](/example/): Vivado project for a 2x2 array, including testbenches, and an use-case scenario with AXI DMA.
 - ![/generator/](/generator/): Python script for generating RTL (edit 'settings.py', run 'main.py', import '/RTL/import_me/*').
-- ![/validation/](/validation/): OOC Vivado projects, scripts, and reports for synth/place/route of 8x8/14x14/32x32 arrays on 7000/UltraScale.
+- ![/validation/](/validation/): OOC Vivado projects, scripts, and reports for synth/place/route of 14x14/32x32 arrays on 7000/US+.
 
 ---
 
@@ -52,8 +52,6 @@ Given a systolic array of size NxN:
 - [<sup>[6]</sup>Xilinx, "UltraScale Architecture DSP Slice User Guide"](https://www.xilinx.com/support/documentation/user_guides/ug579-ultrascale-dsp.pdf)
 - [<sup>[7]</sup>Xilinx, "7 Series Configurable Logic Block User Guide"](https://www.xilinx.com/support/documentation/user_guides/ug474_7Series_CLB.pdf)
 - [<sup>[8]</sup>Xilinx, "UltraScale Architecture Configurable Logic Block User Guide"](https://www.xilinx.com/support/documentation/user_guides/ug574-ultrascale-clb.pdf)
-- [<sup>[9]</sup>Xilinx, "7 Series FPGAs Memory Resources"](https://www.xilinx.com/support/documentation/user_guides/ug473_7Series_Memory_Resources.pdf)
-- [<sup>[10]</sup>Xilinx, "UltraScale Architecture Memory Resources"](https://www.xilinx.com/support/documentation/user_guides/ug573-ultrascale-memory-resources.pdf)
 
 ---
 
