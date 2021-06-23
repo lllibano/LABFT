@@ -2,7 +2,7 @@
 A parametric RTL code generator of an efficient integer MxM Systolic Array implementation for Xilinx FPGAs.
 This repository is an evil cousin to [Libano's Systolic Array Generator](https://github.com/lllibano/SystolicArray), with error detection capabilities.
 
-*This repository is also one of the contributions of an IEEE Transactions on Reliability paper that is currently under review.*
+*This repository is also part of an IEEE Transactions on Reliability paper that is currently under review.*
 
 ---
 
