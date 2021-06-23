@@ -1,0 +1,3 @@
+##### ./validation/zynq_7000/ #####
+
+The 'systolic_14x14_ip' subdirectory contains source/constraint files for a 14x14 systolic array, and a 'tcl.tcl' script that allows for OOC sythesis, placement and routing in Vivado's non-project mode. It showcases how fast the systolic array can run standalone (200MHz).

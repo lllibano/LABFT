@@ -1,0 +1,3 @@
+##### ./validation/zynq_us+/ #####
+
+The 'systolic_32x32_ip' subdirectory contains source/constraint files for a 32x32 systolic array, and a 'tcl.tcl' script that allows for OOC sythesis, placement and routing in Vivado's non-project mode. It showcases how fast the systolic array can run standalone (300MHz).

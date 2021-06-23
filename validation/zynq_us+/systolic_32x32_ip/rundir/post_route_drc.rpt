@@ -1,0 +1,41 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.1 (lin64) Build 2188600 Wed Apr  4 18:39:19 MDT 2018
+| Date         : Tue Jun 22 18:10:31 2021
+| Host         : Shears running 64-bit unknown
+| Command      : report_drc -file ./rundir/post_route_drc.rpt
+| Design       : top
+| Device       : xczu9eg-ffvb1156-3-e-es2
+| Speed File   : -3
+| Design State : Routed
+------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: top
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 1
++-----------+----------+-------------------+------------+
+| Rule      | Severity | Description       | Violations |
++-----------+----------+-------------------+------------+
+| RTSTAT-10 | Warning  | No routable loads | 1          |
++-----------+----------+-------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+RTSTAT-10#1 Warning
+No routable loads  
+4098 net(s) have no routable loads. The problem bus(es) and/or net(s) are array/pe_31_18/int8_quad_mac/acc_w_dff/M_AXIS_TDATA[31:0], array/pe_31_0/int8_quad_mac/acc_y_dff/M_AXIS_TDATA[31:0], array/pe_31_7/int8_quad_mac/acc_y_dff/M_AXIS_TDATA[31:0], array/pe_31_3/int8_quad_mac/acc_w_dff/M_AXIS_TDATA[31:0], array/pe_31_24/int8_quad_mac/acc_x_dff/M_AXIS_TDATA[31:0], array/pe_31_17/int8_quad_mac/acc_w_dff/M_AXIS_TDATA[31:0], array/pe_31_22/int8_quad_mac/acc_x_dff/M_AXIS_TDATA[31:0], array/pe_31_11/int8_quad_mac/acc_w_dff/M_AXIS_TDATA[31:0], array/pe_31_1/int8_quad_mac/acc_x_dff/M_AXIS_TDATA[31:0], array/pe_31_12/int8_quad_mac/acc_x_dff/M_AXIS_TDATA[31:0], array/pe_31_21/int8_quad_mac/acc_y_dff/M_AXIS_TDATA[31:0], array/pe_31_13/int8_quad_mac/acc_z_dff/M_AXIS_TDATA[31:0], array/pe_31_1/int8_quad_mac/acc_w_dff/M_AXIS_TDATA[31:0], array/pe_31_29/int8_quad_mac/acc_z_dff/M_AXIS_TDATA[31:0], array/pe_31_27/int8_quad_mac/acc_w_dff/M_AXIS_TDATA[31:0] (the first 15 of 130 listed).
+Related violations: <none>
+
+
