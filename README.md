@@ -1,5 +1,6 @@
 # Libano's Hardened Systolic Array Generator
 A parametric RTL code generator of an efficient integer MxM Systolic Array implementation for Xilinx FPGAs.
+
 This repository is an evil cousin to [Libano's Systolic Array Generator](https://github.com/lllibano/SystolicArray), with error detection capabilities.
 
 *This repository is also part of an IEEE Transactions on Reliability paper that is currently under review.*
@@ -19,6 +20,7 @@ The adders responsible for accumulation are implemented with CLB<sup>[[7]](https
 Hence, the Processing Elements (PEs) that constitute the array are multiply-accumulate (MAC) units.
 
 ![systolic-arch](/docs/systolic-arch.png)
+
 ![labft-arch](/docs/labft-arch.png)
 
 ---
