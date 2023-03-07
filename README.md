@@ -3,7 +3,19 @@ A parametric RTL code generator of an efficient integer MxM Systolic Array imple
 
 This repository is an evil cousin to [Libano's Systolic Array Generator](https://github.com/lllibano/SystolicArray), with error detection capabilities.
 
-*This repository is also part of an IEEE Transactions on Computers paper that is currently under review.*
+*This repository is also part of an IEEE Transactions on Computers paper: https://ieeexplore.ieee.org/abstract/document/10050820*
+
+```yaml
+@ARTICLE{10050820,
+  author={Libano, Fabiano and Rech, Paolo and Brunhaver, John},
+  journal={IEEE Transactions on Computers}, 
+  title={Efficient Error Detection for Matrix Multiplication with Systolic Arrays on FPGAs}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-14},
+  doi={10.1109/TC.2023.3248282}}
+```
 
 ---
 
